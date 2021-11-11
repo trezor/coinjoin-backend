@@ -1,9 +1,9 @@
-.PHONY: build download-wasabi build-image create-container start stop
+.PHONY: build vendor build-image create-container start stop
 
-build: download-wasabi build-image create-container
+build: vendor build-image create-container
 
-download-wasabi:
-	if [ ! -d WalletWasabi ]; then git clone https://github.com/zkSNACKs/WalletWasabi.git; fi
+vendor:
+	git submodule update --init --recursive --force
 
 build-image: Dockerfile
 	docker build -t coinjoin-backend-image .
