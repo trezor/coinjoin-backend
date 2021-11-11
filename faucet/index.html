@@ -1,0 +1,70 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>Faucet</h1>
+    <form action="generate_block">
+      <table style="width: 30em">
+	<tr>
+          <td >
+	    <input type="submit" value="Generate block" style="width: 100%"></input>
+	  </td>
+	</tr>
+      </table>
+    </form>
+    <br>
+    <form action="generate_block_if_needed">
+      <table style="width: 30em">
+	<tr>
+          <td >
+	    <input type="submit" value="Generate block if needed" style="width: 100%"></input>
+	  </td>
+	</tr>
+      </table>
+    </form>
+    <br>
+    <form action="send_to_address">
+      <table style="width: 30em">
+	<tr>
+	  <td>
+	    Amount:
+	  </td>
+	  <td>
+	    <input type="text" name="amount" value=10 placeholder="amount" style="width: 100%"></input>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+            Address:
+	  </td>
+	  <td>
+	    <input type="text" name="address" placeholder="address" style="width: 100%"></input>
+	  </td>
+	</tr>
+	<tr>
+	  <td colspan="2">
+	    <input type="submit" value="Send to address" style="width: 100%"></input>
+	  </td>
+	</tr>
+      </table>
+    </form>
+    <h1>Blockbook</h1>
+    <ul>
+      <li>
+        <a href="http://127.0.0.1:9130/">status</a>
+      </li>
+      <li>
+        <a href="http://127.0.0.1:9130/blocks">blocks</a>
+      </li>
+    </ul>
+    <h1>WalletWasabi</h1>
+    <ul>
+      <li>
+        <a href="wasabi_wallet_backend">logs</a>
+      </li>
+      <li>
+        <a href="http://127.0.0.1:37127/swagger/index.html">swagger</a>
+      </li>
+    </ul>
+  </body>
+</html>

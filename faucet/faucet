@@ -1,0 +1,11 @@
+#!/usr/bin/python3
+from server import Server
+
+server = Server(
+    server_address="127.0.0.1",
+    server_port=8000,
+    rpc_destination="http://127.0.0.1:18443",
+    rpc_user="rpc",
+    rpc_password="rpc",
+)
+server.run()
