@@ -1,10 +1,13 @@
-# Building
+# coinjoin-backend
+Docker image running multiple services: bitcoind, blockbook, wasabi-wallet and wasabi-backend
+
+## Building
 The command `make`
   * clones the WassabiWallet,
   * builds a docker image called `coinjoin-backend-image`,
   * creates a docker container called `coinjoin-backend-container`.
 
-# Running
+## Running
 The docker container is started with `make start` and stopped with `make stop`. The container doesn't discard its state when stopped.
 
 The container runs a RegTest with the following services on the address 127.0.0.1:
@@ -22,7 +25,7 @@ The container runs a RegTest with the following services on the address 127.0.0.
 
 The command `make create-container` rebuilds the container which resets the network.
 
-# Connecting to WasabiWallet GUI
+## Connecting to WasabiWallet GUI
   * Run the WasabiWallet GUI.
   * Go to settings of the GUI and
     * turn off network encryption (TOR),
