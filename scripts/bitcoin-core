@@ -1,1 +1,1 @@
-/opt/coins/nodes/bitcoin/bin/bitcoind -datadir=/opt/coins/data/bitcoin/backend -conf=/opt/coins/nodes/bitcoin/bitcoin.conf
+/opt/coins/nodes/bitcoin_regtest/bin/bitcoind -datadir=/opt/coins/data/bitcoin_regtest/backend -conf=/opt/coins/nodes/bitcoin_regtest/bitcoin_regtest.conf

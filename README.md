@@ -18,8 +18,8 @@ The container runs a RegTest with the following services on the address 127.0.0.
 | Bitcoin knots        | RPC      | 18443 | rpc  | rpc      |
 | Bitcoin core         | P2P      | 28444 |      |          |
 | Bitcoin core         | RPC      | 28443 | rpc  | rpc      |
-| Blockbook            | HTTP     | 9130  |      |          |
-| Blockbook            | RPC      | 8030  |      |          |
+| Blockbook            | HTTP     | 19121 |      |          |
+| Blockbook            | RPC      | 28443 |      |          |
 | Faucet               | HTTP     | 8000  |      |          |
 | WalletWasabi backend | REST API | 37127 |      |          |
 

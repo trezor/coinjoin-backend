@@ -15,8 +15,8 @@ RUN apt-get install -y dotnet-runtime-5.0
 
 # Install bitcoin core, blockbook and bitcoin knots
 COPY packages/ /packages/
-RUN apt install -fy /packages/backend-bitcoin_0.20.1-satoshilabs-1_amd64.deb
-RUN apt install -fy /packages/blockbook-bitcoin_0.3.4_amd64.deb
+RUN apt install -fy /packages/backend-bitcoin-regtest_22.0-satoshilabs-1_amd64.deb
+RUN apt install -fy /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
 RUN tar -xzf /packages/bitcoin-0.20.1.knots20200815-x86_64-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
 
 # Install WalletWasabi
@@ -28,9 +28,9 @@ RUN cd /opt/WalletWasabi/ && dotnet build
 COPY faucet /opt/faucet
 
 # Copy configuration
-COPY configuration/bitcoin-core/ /opt/coins/nodes/bitcoin/
+COPY configuration/bitcoin-core/ /opt/coins/nodes/bitcoin_regtest/
 COPY configuration/bitcoin-knots/ /opt/bitcoin-knots/config/
-COPY configuration/blockbook/ /opt/coins/blockbook/bitcoin/config
+COPY configuration/blockbook/ /opt/coins/blockbook/bitcoin_regtest/config
 COPY configuration/wallet-wasabi/ /root/.walletwasabi/
 
 RUN mkdir /opt/bitcoin-knots/data
