@@ -1,0 +1,14 @@
+﻿{
+  "Oobe": false,
+  "WindowState": "Normal",
+  "FeeTarget": 2,
+  "FeeDisplayFormat": 0,
+  "Autocopy": true,
+  "IsCustomFee": false,
+  "IsCustomChangeAddress": false,
+  "PrivacyMode": false,
+  "DarkModeEnabled": true,
+  "LastSelectedWallet": "Account1",
+  "RunOnSystemStartup": false,
+  "HideOnClose": true
+}
