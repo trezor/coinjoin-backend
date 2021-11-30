@@ -1,0 +1,1 @@
+cd /opt/WalletWasabi/ && dotnet run --project WalletWasabi.Fluent.Desktop/WalletWasabi.Fluent.Desktop.csproj

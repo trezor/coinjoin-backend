@@ -1,6 +1,7 @@
-.PHONY: build vendor build-image create-container start stop
+.PHONY: build vendor build-image create-container start stop run-wallet
 
-build: vendor build-image create-container
+
+build: build-image create-container
 
 vendor:
 	git submodule update --init --recursive --force
@@ -18,3 +19,10 @@ start:
 
 stop:
 	docker stop coinjoin-backend-container
+
+run-wallet:
+	docker run -it \
+		--net host \
+		-v "/tmp/.X11-unix/":"/tmp/.X11-unix/" \
+		-e DISPLAY="${DISPLAY}" \
+		coinjoin-backend-image "run-environment && wasabi-wallet"

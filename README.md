@@ -35,3 +35,9 @@ The command `make create-container` rebuilds the container which resets the netw
   * Restart the GUI.
   * Open http://127.0.0.1:8080 in your browser.
   * Send yourself money.
+
+
+## Running WasabiWallet from docker
+`sudo xhost +`
+
+`docker run -it --net host -v "/tmp/.X11-unix/":"/tmp/.X11-unix/" -e DISPLAY="${DISPLAY}" coinjoin-backend-image "run-environment && wasabi-wallet"`
