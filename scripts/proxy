@@ -1,0 +1,104 @@
+#!/usr/bin/python3
+
+from http.server import SimpleHTTPRequestHandler
+from urllib.parse import urlparse, parse_qs
+from socketserver import TCPServer
+import traceback
+import sys
+import requests
+
+# WabiSabi server rejects cross-origin requests from trezor-suite
+# This proxy will override request headers
+WABISABI_HOST = "127.0.0.1:37127"
+WABISABI_HEADERS = {
+    "Host": WABISABI_HOST,
+    "Origin": f"http://{WABISABI_HOST}",
+}
+
+# origin is set to the actual machine that made the call not localhost
+def merge_headers(original: dict) -> dict:
+    headers = original.copy()
+    headers.update(WABISABI_HEADERS)
+    return headers
+
+
+class Server(TCPServer):
+    def __init__(
+        self,
+        server_address,
+        server_port,
+    ):
+        TCPServer.allow_reuse_address = True
+        super().__init__((server_address, server_port), Server.MyHttpRequestHandler)
+
+    def run(self):
+        self.serve_forever()
+
+    class MyHttpRequestHandler(SimpleHTTPRequestHandler):
+
+        def return_error_page(self, error_code, message):
+            self.send_response(error_code)
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(bytes(message, "utf8"))
+
+        def do_GET(self):
+            try:
+                request = urlparse(self.path)
+                site = request.path
+
+                if site.startswith("/WabiSabi"):
+                    # proxy for wabisabi server
+                    url = f"http://{WABISABI_HOST}{self.path}"
+                    resp = requests.get(url, headers=merge_headers(dict(self.headers)))
+
+                    self.send_response(resp.status_code)
+                    self.send_header("Content-type", "application/json; charset=utf-8")
+                    self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
+                    self.end_headers()
+                    self.wfile.write(resp.content)
+                else:
+                    self.return_error_page(404, "Not found")
+            except Exception as exception:
+                exc_type, exc_value, exc_tb = sys.exc_info()
+                message = "<br>".join(
+                    traceback.format_exception(exc_type, exc_value, exc_tb)
+                )
+                self.return_error_page(500, message)
+
+        def do_POST(self, body: bool = True) -> None:
+            try:
+                request = urlparse(self.path)
+                site = request.path
+
+                if site.startswith("/WabiSabi"):
+                    url = f"http://{WABISABI_HOST}{self.path}"
+                    data_len = int(self.headers.get("content-length", 0))
+                    data = self.rfile.read(data_len)
+                    resp = requests.post(url, data=data, headers=merge_headers(dict(self.headers)))
+
+                    self.send_response(resp.status_code)
+                    self.send_header("Content-type", "application/json; charset=utf-8")
+                    self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
+                    self.end_headers()
+                    if body:
+                        self.wfile.write(resp.content)
+                else:
+                    self.return_error_page(404, "Not found")
+            except Exception as e:
+                self.send_error(404, f"Error processing POST: {self.path} Error: {e}")
+
+        def do_OPTIONS(self):
+            self.send_response(200, 'ok')
+            self.send_header('Access-Control-Allow-Origin', self.headers.get('Access-Control-Allow-Origin', '*'))
+            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+            self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.end_headers()
+
+server = Server(
+    server_address="0.0.0.0",
+    server_port=8081,
+)
+
+server.run()

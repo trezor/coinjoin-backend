@@ -20,7 +20,8 @@ The container runs a RegTest with the following services on the address 127.0.0.
 | Bitcoin core         | RPC      | 28443 | rpc  | rpc      |
 | Blockbook            | HTTP     | 19121 |      |          |
 | Blockbook            | RPC      | 28443 |      |          |
-| Faucet               | HTTP     | 8000  |      |          |
+| Faucet               | HTTP     | 8080  |      |          |
+| Wabisabi proxy       | HTTP     | 8081  |      |          |
 | WalletWasabi backend | REST API | 37127 |      |          |
 
 The command `make create-container` rebuilds the container which resets the network.
@@ -32,5 +33,5 @@ The command `make create-container` rebuilds the container which resets the netw
     * set network to RegTest,
     * set bitcoin P2P Endpoint to 127.0.0.1:18444.
   * Restart the GUI.
-  * Open http://127.0.0.1:8000 in your browser.
+  * Open http://127.0.0.1:8080 in your browser.
   * Send yourself money.
