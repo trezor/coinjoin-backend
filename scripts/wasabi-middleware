@@ -1,0 +1,1 @@
+cd /opt/WalletWasabi/WalletWasabi.Middleware/ && dotnet run &

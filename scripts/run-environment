@@ -4,5 +4,6 @@ echo "Waiting"
 sleep 5
 blockbook > /dev/null & echo "Running blockbook"
 wasabi-backend > /dev/null & echo "Running wasabi backend"
+wasabi-middleware > /dev/null & echo "Running wasabi middleware"
 faucet > /dev/null & echo "Running faucet"
 proxy > /dev/null & echo "Running WabiSabi proxy"

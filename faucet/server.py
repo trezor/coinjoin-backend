@@ -69,6 +69,9 @@ class Server(TCPServer):
                 elif site == "/wasabi_wallet_backend":
                     log = open("/root/.walletwasabi/backend/Logs.txt", "rb").read()
                     self.return_html_page(log)
+                elif site == "/wasabi_wallet_middleware":
+                    log = open("/root/.walletwasabi/middleware/Logs.txt", "rb").read()
+                    self.return_html_page(log)
                 else:
                     self.return_error_page(404, "Not found")
             except Exception as exception:
