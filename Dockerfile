@@ -1,8 +1,9 @@
-FROM debian:9
+FROM debian:buster-slim
 RUN apt-get update
 
 # Install python
-RUN apt-get install -y python3 python3-requests
+RUN apt-get install -y python3 python3-pip python3-requests
+RUN pip3 install ecdsa==0.16.1
 
 # Install dotnet
 RUN apt-get install -y wget
@@ -10,8 +11,7 @@ RUN wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod
 RUN apt-get install -fy /packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
 RUN apt-get update
-RUN apt-get install -y dotnet-sdk-5.0
-RUN apt-get install -y dotnet-runtime-5.0
+RUN apt-get install -y dotnet-sdk-6.0 dotnet-runtime-6.0
 
 # Install bitcoin core, blockbook and bitcoin knots
 COPY packages/ /packages/
@@ -20,7 +20,7 @@ RUN apt install -fy /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
 RUN tar -xzf /packages/bitcoin-0.20.1.knots20200815-x86_64-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
 
 # Install WalletWasabi
-RUN apt-get install -y libx11-dev libfontconfig1
+RUN apt-get install -y libx11-dev libice-dev libsm-dev libfontconfig1 
 COPY vendor/WalletWasabi /opt/WalletWasabi
 RUN cd /opt/WalletWasabi/ && dotnet build
 

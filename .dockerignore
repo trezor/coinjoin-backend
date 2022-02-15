@@ -1,0 +1,14 @@
+# Build results
+vendor/WalletWasabi/**/[Dd]ebug/
+vendor/WalletWasabi/**/[Dd]ebugPublic/
+vendor/WalletWasabi/**/[Rr]elease/
+vendor/WalletWasabi/**/[Rr]eleases/
+vendor/WalletWasabi/**/x64/
+vendor/WalletWasabi/**/x86/
+vendor/WalletWasabi/**/bld/
+vendor/WalletWasabi/**/[Bb]in/
+vendor/WalletWasabi/**/[Oo]bj/
+vendor/WalletWasabi/**/[Ll]og/
+
+.git
+.gitmodules
