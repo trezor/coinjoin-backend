@@ -21,7 +21,7 @@ RUN tar -xzf /packages/bitcoin-0.20.1.knots20200815-x86_64-linux-gnu.tar.gz --on
 
 # Install WalletWasabi
 RUN apt-get install -y libx11-dev libfontconfig1
-COPY vendor/WalletWasabi-satoshilabs /opt/WalletWasabi
+COPY vendor/WalletWasabi /opt/WalletWasabi
 RUN cd /opt/WalletWasabi/ && dotnet build
 
 # Install faucet
