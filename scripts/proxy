@@ -15,10 +15,16 @@ WABISABI_HEADERS = {
     "Origin": f"http://{WABISABI_HOST}",
 }
 
+MIDDLEWARE_HOST = "127.0.0.1:37128"
+MIDDLEWARE_HEADERS = {
+    "Host": MIDDLEWARE_HOST,
+    "Origin": f"http://{MIDDLEWARE_HOST}",
+}
+
 # origin is set to the actual machine that made the call not localhost
-def merge_headers(original: dict) -> dict:
+def merge_headers(original: dict, override: dict) -> dict:
     headers = original.copy()
-    headers.update(WABISABI_HEADERS)
+    headers.update(override)
     return headers
 
 
@@ -47,18 +53,20 @@ class Server(TCPServer):
                 request = urlparse(self.path)
                 site = request.path
 
-                if site.startswith("/WabiSabi"):
+                host = WABISABI_HOST
+                head = WABISABI_HEADERS
+                if site.startswith("/swagger"):
+                    host = MIDDLEWARE_HOST
+                    head = MIDDLEWARE_HEADERS
+                
                     # proxy for wabisabi server
-                    url = f"http://{WABISABI_HOST}{self.path}"
-                    resp = requests.get(url, headers=merge_headers(dict(self.headers)))
+                url = f"http://{host}{self.path}"
+                resp = requests.get(url, headers=merge_headers(dict(self.headers), head))
 
-                    self.send_response(resp.status_code)
-                    self.send_header("Content-type", "application/json; charset=utf-8")
-                    self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
-                    self.end_headers()
-                    self.wfile.write(resp.content)
-                else:
-                    self.return_error_page(404, "Not found")
+                self.send_response(resp.status_code)
+                self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
+                self.end_headers()
+                self.wfile.write(resp.content)
             except Exception as exception:
                 exc_type, exc_value, exc_tb = sys.exc_info()
                 message = "<br>".join(
@@ -70,21 +78,22 @@ class Server(TCPServer):
             try:
                 request = urlparse(self.path)
                 site = request.path
+                host = WABISABI_HOST
+                head = WABISABI_HEADERS
+                if site.startswith("/Cryptography"):
+                    host = MIDDLEWARE_HOST
+                    head = MIDDLEWARE_HEADERS
 
-                if site.startswith("/WabiSabi"):
-                    url = f"http://{WABISABI_HOST}{self.path}"
-                    data_len = int(self.headers.get("content-length", 0))
-                    data = self.rfile.read(data_len)
-                    resp = requests.post(url, data=data, headers=merge_headers(dict(self.headers)))
+                url = f"http://{host}{self.path}"
+                data_len = int(self.headers.get("content-length", 0))
+                data = self.rfile.read(data_len)
+                resp = requests.post(url, data=data, headers=merge_headers(dict(self.headers), head))
 
-                    self.send_response(resp.status_code)
-                    self.send_header("Content-type", "application/json; charset=utf-8")
-                    self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
-                    self.end_headers()
-                    if body:
-                        self.wfile.write(resp.content)
-                else:
-                    self.return_error_page(404, "Not found")
+                self.send_response(resp.status_code)
+                self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
+                self.end_headers()
+                if body:
+                    self.wfile.write(resp.content)
             except Exception as e:
                 self.send_error(404, f"Error processing POST: {self.path} Error: {e}")
 
