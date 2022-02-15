@@ -17,7 +17,7 @@ RUN apt-get install -y dotnet-sdk-6.0 dotnet-runtime-6.0
 COPY packages/ /packages/
 RUN apt install -fy /packages/backend-bitcoin-regtest_22.0-satoshilabs-1_amd64.deb
 RUN apt install -fy /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
-RUN tar -xzf /packages/bitcoin-0.20.1.knots20200815-x86_64-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
+RUN tar -xzf /packages/bitcoin-22.0.knots20211108-x86_64-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
 
 # Install WalletWasabi
 RUN apt-get install -y libx11-dev libice-dev libsm-dev libfontconfig1 

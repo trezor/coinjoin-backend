@@ -1,1 +1,2 @@
 /opt/bitcoin-knots/bin/bitcoind -datadir=/opt/bitcoin-knots/data/ -conf=/opt/bitcoin-knots/config/bitcoin.conf
+/opt/bitcoin-knots/bin/bitcoin-cli -regtest createwallet default_wallet
