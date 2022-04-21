@@ -1,1 +1,1 @@
-cd /opt/WalletWasabi/WalletWasabi.Middleware/ && dotnet run &
+cd /opt/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/ && dotnet run &
