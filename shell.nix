@@ -9,6 +9,8 @@ with import
 stdenv.mkDerivation rec {
   name = "coinjoin-backend-dev";
   buildInputs = [
+    stdenv.cc.cc.lib
+    openssl
     dotnet-sdk_6
     docker
     fontconfig
