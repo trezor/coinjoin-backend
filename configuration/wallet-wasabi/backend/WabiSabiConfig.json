@@ -3,5 +3,6 @@
   "MaxInputCountByRound": 2,
   "ReleaseUtxoFromPrisonAfter" : "0d 0h 0m 0s",
   "AllowP2trInputs": true,
-  "AllowP2trOutputs": true
+  "AllowP2trOutputs": true,
+  "MaxSuggestedAmountBase": "10"
 }
