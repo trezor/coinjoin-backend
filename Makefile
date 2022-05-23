@@ -1,5 +1,6 @@
 .PHONY: build vendor build-image create-container start stop run-wallet
 
+ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 build: build-image create-container
 
@@ -12,7 +13,7 @@ build-image: Dockerfile
 create-container:
 	if [[ $$(docker ps -q -f name=coinjoin-backend-container) ]]; then docker kill coinjoin-backend-container; else true; fi
 	if [[ $$(docker ps -q -a -f name=coinjoin-backend-container) ]]; then docker rm coinjoin-backend-container; else true; fi
-	docker create -ti --name coinjoin-backend-container --net host coinjoin-backend-image
+	docker create -ti --name coinjoin-backend-container --net host --volume "${ROOT_DIR}/shared":"/mnt/shared" coinjoin-backend-image
 
 start:
 	docker start coinjoin-backend-container

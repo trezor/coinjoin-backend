@@ -41,3 +41,4 @@ ENV PATH="/opt/bin/:${PATH}"
 
 ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["run-environment && sleep infinity"]
+RUN mkdir /mnt/shared/
