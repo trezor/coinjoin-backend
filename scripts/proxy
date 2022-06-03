@@ -151,6 +151,8 @@ class Server(TCPServer):
 
                 self.send_response(resp.status_code)
                 self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
+                self.send_header("Content-type", "application/json; charset=utf-8")
+                self.send_header("Content-Encoding", "br")
                 self.end_headers()
                 if body:
                     self.wfile.write(resp.content)
