@@ -1,1 +1,1 @@
-/opt/bitcoin-knots/bin/bitcoin-cli -regtest -rpcpassword=rpc -rpcuser=rpc createwallet default_wallet
+/opt/bitcoin-knots/bin/bitcoin-cli -regtest -rpcpassword=rpc -rpcuser=rpc loadwallet default_wallet || /opt/bitcoin-knots/bin/bitcoin-cli -regtest -rpcpassword=rpc -rpcuser=rpc createwallet default_wallet
