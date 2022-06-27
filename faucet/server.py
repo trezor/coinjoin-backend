@@ -6,6 +6,7 @@ import sys
 
 from file_cache import FileCache
 from bitcoin import Bitcoin
+from periodic_runner import PeriodicRunner
 
 
 class Server(TCPServer):
@@ -21,6 +22,13 @@ class Server(TCPServer):
         super().__init__((server_address, server_port), Server.MyHttpRequestHandler)
         self.file_cache = FileCache()
         self.bitcoin = Bitcoin(rpc_destination, rpc_user, rpc_password)
+        self.generate_blocks_periodic_runner = PeriodicRunner()
+
+    def start_generating_blocks_automatically(self, interval_in_seconds):
+        self.generate_blocks_periodic_runner.start(interval_in_seconds, self.bitcoin.generate_block_if_needed)
+
+    def stop_generating_blocks_automatically(self):
+        self.generate_blocks_periodic_runner.stop()
 
     def run(self):
         self.serve_forever()
@@ -59,6 +67,14 @@ class Server(TCPServer):
                     amount = float(parameters[b"amount"][0])
                     address = parameters[b"address"][0]
                     self.server.bitcoin.send(address, amount)
+                    self.return_redirect("/")
+                elif site == "/start_generating_blocks_automatically":
+                    parameters = parse_qs(content)
+                    interval_in_seconds = int(parameters[b"interval_in_seconds"][0])
+                    self.server.start_generating_blocks_automatically(interval_in_seconds)
+                    self.return_redirect("/")
+                elif site == "/stop_generating_blocks_automatically":
+                    self.server.stop_generating_blocks_automatically()
                     self.return_redirect("/")
                 else:
                     self.return_error_page(404, "Not found")
