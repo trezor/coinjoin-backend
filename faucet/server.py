@@ -47,6 +47,28 @@ class Server(TCPServer):
         def return_index_page(self):
             self.return_html_page(self.server.file_cache.get_file("index.html"))
 
+        def do_POST(self):
+            try:
+                request = urlparse(self.path)
+                site = request.path
+                content_length = int(self.headers['Content-Length'])
+                content = self.rfile.read(content_length)
+
+                if site == "/send_to_address":
+                    parameters = parse_qs(content)
+                    amount = float(parameters[b"amount"][0])
+                    address = parameters[b"address"][0]
+                    self.server.bitcoin.send(address, amount)
+                    self.return_redirect("/")
+                else:
+                    self.return_error_page(404, "Not found")
+            except Exception as exception:
+                exc_type, exc_value, exc_tb = sys.exc_info()
+                message = "<br>".join(
+                    traceback.format_exception(exc_type, exc_value, exc_tb)
+                )
+                self.return_error_page(500, message)
+
         def do_GET(self):
             try:
                 request = urlparse(self.path)
@@ -54,11 +76,6 @@ class Server(TCPServer):
                 parameters = parse_qs(request.query)
 
                 if site == "/":
-                    self.return_index_page()
-                elif site == "/send_to_address":
-                    amount = float(parameters["amount"][0])
-                    address = parameters["address"][0]
-                    self.server.bitcoin.send(address, amount)
                     self.return_index_page()
                 elif site == "/generate_block":
                     self.server.bitcoin.generate_blocks()
