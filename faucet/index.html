@@ -48,6 +48,32 @@
 	</tr>
       </table>
     </form>
+    <form action="start_generating_blocks_automatically" method="POST">
+      <table style="width: 30em">
+	<tr>
+	  <td>
+	    Interval in seconds:
+	  </td>
+	  <td>
+	    <input type="text" name="interval_in_seconds" value=60 placeholder="interval in seconds" style="width: 100%"></input>
+	  </td>
+	</tr>
+	<tr>
+	  <td colspan="2">
+	    <input type="submit" value="Start generating blocks automatically" style="width: 100%"></input>
+	  </td>
+	</tr>
+      </table>
+    </form>
+    <form action="stop_generating_blocks_automatically" method="POST">
+      <table style="width: 30em">
+	<tr>
+	  <td colspan="2">
+	    <input type="submit" value="Stop generating blocks automatically" style="width: 100%"></input>
+	  </td>
+	</tr>
+      </table>
+    </form>
     <h1>Blockbook</h1>
     <ul>
       <li>
