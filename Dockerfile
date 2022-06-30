@@ -14,10 +14,14 @@ RUN apt-get update
 RUN apt-get install -y dotnet-sdk-6.0 dotnet-runtime-6.0
 
 # Install bitcoin core, blockbook and bitcoin knots
-COPY packages/ /packages/
-RUN apt install -fy /packages/backend-bitcoin-regtest_22.0-satoshilabs-1_amd64.deb
+RUN mkdir /packages
+RUN wget https://data.trezor.io/dev/blockbook/builds/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb -O /packages/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb
+RUN apt install -fy /packages/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb
+RUN wget https://data.trezor.io/dev/blockbook/builds/blockbook-bitcoin-regtest_0.3.6_amd64.deb -O /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
 RUN apt install -fy /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
-RUN tar -xzf /packages/bitcoin-22.0.knots20211108-x86_64-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
+RUN wget https://bitcoinknots.org/files/23.x/23.0.knots20220529/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz -O /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz
+RUN tar -xzf /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
+RUN rm -rf /packages
 
 # Install WalletWasabi
 RUN apt-get install -y libx11-dev libice-dev libsm-dev libfontconfig1 
