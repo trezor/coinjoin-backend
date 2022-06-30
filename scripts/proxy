@@ -10,21 +10,53 @@ import sys
 import requests
 import json
 
-# WabiSabi server rejects cross-origin requests from trezor-suite
-# This proxy will override request headers
-WABISABI_HOST = "127.0.0.1:37127"
-WABISABI_HEADERS = {
-    "Host": WABISABI_HOST,
-    "Origin": f"http://{WABISABI_HOST}",
+LOCALHOST = "127.0.0.1"
+SERVICES = {
+    "/blockbook": 19121,
+    "/WabiSabi": 37127,
+    "/Cryptography": 37128
 }
 
-MIDDLEWARE_HOST = "127.0.0.1:37128"
-MIDDLEWARE_HEADERS = {
-    "Host": MIDDLEWARE_HOST,
-    "Origin": f"http://{MIDDLEWARE_HOST}",
-}
+def replace_html_links(html, base):
+    # replace 127.0.0.1:19121 to absolute with key (in faucet.html)
+    for key in SERVICES:
+        host = f"http://{LOCALHOST}:{SERVICES[key]}"
+        html = html.replace(host, key)
+    # replace absoulte links (blockbook styles + links, swagger)
+    html = html.replace('href="/', 'href="' + base + '/')
+    return html
+
+def get_service(path, referer, strip_key = True):
+    host = f"{LOCALHOST}:8080" # default service (faucet)
+    service_key = ''
+    for key in SERVICES:
+        search_key = f"{key}/"
+        if (path.startswith(search_key)):
+            host = f"{LOCALHOST}:{SERVICES[key]}"
+            # strip service key conditionally. see do_POST
+            if (strip_key): 
+                path = path[len(key):len(path)]
+            service_key = key
+        elif (referer.startswith(search_key)):
+            host = f"{LOCALHOST}:{SERVICES[key]}"
+            service_key = key
+
+    return {
+        "key": service_key,
+        "host": host,
+        "path": path,
+        "url": f"http://{host}{path}"
+    }
+
+
 
 # origin is set to the actual machine that made the call not localhost
+def request_headers(host) -> dict:
+    return {
+        "Host": host,
+        "Origin": f"http://{host}",
+    }
+
 def merge_headers(original: dict, override: dict) -> dict:
     headers = original.copy()
     headers.update(override)
@@ -75,6 +107,11 @@ def make_payment_request(
         "signature": payment_req_signer.sign_digest_deterministic(h_pr.digest()).hex(),
     }
 
+# Proxy server redirects between running services
+# Purposes:
+# - Allows suite/wallet to access different services from one access point using allowed orgin headers
+# - Create /payment-request signature
+
 class Server(TCPServer):
     def __init__(
         self,
@@ -95,25 +132,50 @@ class Server(TCPServer):
             self.end_headers()
             self.wfile.write(bytes(message, "utf8"))
 
+        def get_service(self, strip_key = True):
+            referer = self.headers.get("referer", "")
+            if (referer != ''):
+                referer = urlparse(referer).path
+            return get_service(self.path, referer, strip_key)
+
+        def send_response_headers(self, headers):
+            self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
+            self.send_header("Content-Type", headers.get("Content-Type", ""))
+            encoding = headers.get("Content-Encoding", "")
+            # NOTE: gzip encoding breaks GET WabiSabi/api/v4/btc requests
+            if (encoding != "gzip"):
+                self.send_header("Content-Encoding", encoding)
+
+        # TODO: this should be moved to coordinator at some point
+        def do_PaymentRequest(self, data):
+            params = json.loads(data.decode("utf-8").replace("'",'"'))
+            print("Payment request:")
+            print(params)
+            signature = make_payment_request(params["recipient_name"], params["outputs"], params["change_addresses"])
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
+            self.end_headers()
+            self.wfile.write(bytes(json.dumps(signature, ensure_ascii=False), 'utf-8'))
+
         def do_GET(self):
             try:
-                request = urlparse(self.path)
-                site = request.path
+                service = self.get_service()
+                print("do_GET:")
+                print(service)
+                headers = merge_headers(dict(self.headers), request_headers(service['host']))
 
-                host = WABISABI_HOST
-                head = WABISABI_HEADERS
-                if site.startswith("/swagger"):
-                    host = MIDDLEWARE_HOST
-                    head = MIDDLEWARE_HEADERS
-                
-                    # proxy for wabisabi server
-                url = f"http://{host}{self.path}"
-                resp = requests.get(url, headers=merge_headers(dict(self.headers), head))
-
+                resp = requests.get(url=service['url'], headers=headers)
                 self.send_response(resp.status_code)
-                self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
+                self.send_response_headers(resp.headers)
                 self.end_headers()
-                self.wfile.write(resp.content)
+
+                if (resp.status_code == 200 and resp.headers["Content-Type"].find("text/html") >= 0):
+                    content = replace_html_links(resp.text, service['key'])
+                    self.wfile.write(str.encode(content))
+                else:
+                    self.wfile.write(resp.content)
+
             except Exception as exception:
                 exc_type, exc_value, exc_tb = sys.exc_info()
                 message = "<br>".join(
@@ -123,36 +185,22 @@ class Server(TCPServer):
 
         def do_POST(self, body: bool = True) -> None:
             try:
-                request = urlparse(self.path)
-                site = request.path
-                host = WABISABI_HOST
-                head = WABISABI_HEADERS
+                site = self.path
                 data_len = int(self.headers.get("Content-Length", 0))
                 data = self.rfile.read(data_len)
 
-                if site.startswith("/payment-request"):
-                    params = json.loads(data.decode("utf-8").replace("'",'"'))
-                    print(params)
-                    signature = make_payment_request(params["recipient_name"], params["outputs"], params["change_addresses"])
-                    self.send_response(200)
-                    self.send_header("Content-type", "application/json; charset=utf-8")
-                    self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
-                    self.end_headers()
-                    self.wfile.write(bytes(json.dumps(signature, ensure_ascii=False), 'utf-8'))
+                if self.path.startswith("/WabiSabi/payment-request"):
+                    self.do_PaymentRequest(data)
                     return
 
-                if site.startswith("/Cryptography"):
-                    host = MIDDLEWARE_HOST
-                    head = MIDDLEWARE_HEADERS
-
-                url = f"http://{host}{self.path}"
-                
-                resp = requests.post(url, data=data, headers=merge_headers(dict(self.headers), head))
+                service = self.get_service(False)  # do not strip prefixes/keys in post requests beacuse of requests with absolute urls like /Wabisabi/status from /Wabisabi/swagger.html
+                print("do_POST:")
+                print(service)
+                headers = merge_headers(dict(self.headers), request_headers(service['host']))
+                resp = requests.post(url=service['url'], data=data, headers=headers)
 
                 self.send_response(resp.status_code)
-                self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
-                self.send_header("Content-type", "application/json; charset=utf-8")
-                self.send_header("Content-Encoding", "br")
+                self.send_response_headers(resp.headers)
                 self.end_headers()
                 if body:
                     self.wfile.write(resp.content)
