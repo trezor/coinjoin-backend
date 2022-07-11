@@ -66,45 +66,36 @@ def merge_headers(original: dict, override: dict) -> dict:
 # Simplified payment request from:
 # https://github.com/trezor/trezor-firmware/blob/master/tests/device_tests/bitcoin/test_signtx_payreq.py
 
-payment_req_signer = SigningKey.from_string(
+PAYMENT_SIGNER = SigningKey.from_string(
     b"?S\ti\x8b\xc5o{,\xab\x03\x194\xea\xa8[_:\xeb\xdf\xce\xef\xe50\xf17D\x98`\xb9dj",
     curve=SECP256k1,
 )
 
-def hash_bytes_prefixed(hasher, data):
-    hasher.update(len(data).to_bytes(1, "little"))
-    hasher.update(data)
-
-
 def make_payment_request(
-    recipient_name, outputs, change_addresses
+    recipient_name, outputs, slip44
 ):
-    slip44 = 1  # Testnet
-
     h_pr = sha256(b"SL\x00\x24")
     h_pr.update(b"\0")
 
-    hash_bytes_prefixed(h_pr, recipient_name.encode())
+    recipient = recipient_name.encode()
+    h_pr.update(len(recipient).to_bytes(1, "little"))
+    h_pr.update(recipient)
 
     memos = []
     h_pr.update(len(memos).to_bytes(1, "little"))
     h_pr.update(slip44.to_bytes(4, "little"))
 
-    change_address = iter(change_addresses or [])
     h_outputs = sha256()
     for txo in outputs:
         h_outputs.update(txo['amount'].to_bytes(8, "little"))
-        address = txo.get('address', None) or next(change_address)
-        print(address)
-        h_outputs.update(len(address).to_bytes(1, "little"))
-        h_outputs.update(address.encode())
+        h_outputs.update(len(txo['address']).to_bytes(1, "little"))
+        h_outputs.update(txo['address'].encode())
 
     h_pr.update(h_outputs.digest())
 
     return {
         "recipient_name": recipient_name,
-        "amount": sum(txo['amount'] for txo in outputs if 'address' in txo),
-        "signature": payment_req_signer.sign_digest_deterministic(h_pr.digest()).hex(),
+        "signature": PAYMENT_SIGNER.sign_digest_deterministic(h_pr.digest()).hex(),
     }
 
 # Proxy server redirects between running services
@@ -151,7 +142,7 @@ class Server(TCPServer):
             params = json.loads(data.decode("utf-8").replace("'",'"'))
             print("Payment request:")
             print(params)
-            signature = make_payment_request(params["recipient_name"], params["outputs"], params["change_addresses"])
+            signature = make_payment_request(params["recipient_name"], params["outputs"], params.get("slip44", 1))
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
