@@ -1,6 +1,8 @@
 ﻿{
-  "StandardInputRegistrationTimeout": "0d 0h 2m 00s",
-  "MaxInputCountByRound": 2,
+  "StandardInputRegistrationTimeout": "0d 0h 3m 00s",
+  "RoundExpiryTimeout": "0d 0h 2m 00s",
+  "MaxInputCountByRound": 10,
+  "MinInputCountByRoundMultiplier": 0.2,
   "ReleaseUtxoFromPrisonAfter" : "0d 0h 0m 0s",
   "AllowP2trInputs": true,
   "AllowP2trOutputs": true,
