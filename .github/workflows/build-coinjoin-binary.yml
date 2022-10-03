@@ -34,7 +34,7 @@ jobs:
         run: | 
           cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
           RUNTIME="osx-arm64" make
-      - name: Build CoinjoinClientLibrary
+      - name: Build win-x64
         run: | 
           cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
           RUNTIME="win-x64" make
