@@ -1,0 +1,51 @@
+name: "[Build] CoinjoinClientLibrary binary"
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build_middleware:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive  
+      - name: Setup dotnet 
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'      
+    
+      - name: Build linux-x64
+        run: | 
+          cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
+          RUNTIME="linux-x64" make
+      - name: Build linux-arm64
+        run: | 
+          cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
+          RUNTIME="linux-arm64" make
+      - name: Build osx-x64
+        run: | 
+          cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
+          RUNTIME="osx-x64" make
+      - name: Build osx-arm64
+        run: | 
+          cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
+          RUNTIME="osx-arm64" make
+      - name: Build CoinjoinClientLibrary
+        run: | 
+          cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
+          RUNTIME="win-x64" make
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: CoinjoinClientLibrary-binary
+          path: |
+            bin/Release/net6.0/linux-x64/WalletWasabi.WabiSabiClientLibrary
+            bin/Release/net6.0/linux-arm64/WalletWasabi.WabiSabiClientLibrary
+            bin/Release/net6.0/osx-x64/WalletWasabi.WabiSabiClientLibrary
+            bin/Release/net6.0/osx-arm64/WalletWasabi.WabiSabiClientLibrary
+            bin/Release/net6.0/win-x64/WalletWasabi.WabiSabiClientLibrary.exe

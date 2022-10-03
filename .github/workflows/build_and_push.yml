@@ -38,30 +38,3 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/coinjoin-backend:${{ github.sha }}
             ghcr.io/${{ github.repository_owner }}/coinjoin-backend:latest
-
-  build_middleware:
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive  
-      -
-        name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ secrets.TREZOR_BOT_USERNAME }}
-          password: ${{ secrets.TREZOR_BOT_TOKEN }}
-      -
-        name: Build CoinjoinClientLibrary
-        run: apt-get update
-        run: apt-get install -y wget
-        run: wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O ./packages-microsoft-prod.deb
-        run: apt-get install -fy ./packages-microsoft-prod.deb
-        run: rm packages-microsoft-prod.deb
-        run: apt-get update
-        run: apt-get install -y dotnet-sdk-6.0 dotnet-runtime-6.0
-        run: cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
-        run: RUNTIME="linux-x64" make
