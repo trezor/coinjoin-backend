@@ -15,30 +15,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          submodules: recursive  
-      - name: Setup dotnet 
+          submodules: recursive
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'      
-    
+          dotnet-version: '6.0.x'
+
       - name: Build linux-x64
-        run: | 
+        run: |
           cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
           RUNTIME="linux-x64" make
       - name: Build linux-arm64
-        run: | 
+        run: |
           cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
           RUNTIME="linux-arm64" make
       - name: Build osx-x64
-        run: | 
+        run: |
           cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
           RUNTIME="osx-x64" make
       - name: Build osx-arm64
-        run: | 
+        run: |
           cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
           RUNTIME="osx-arm64" make
       - name: Build win-x64
-        run: | 
+        run: |
           cd ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary
           RUNTIME="win-x64" make
 

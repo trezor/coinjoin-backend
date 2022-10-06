@@ -24,7 +24,7 @@ RUN tar -xzf /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz --one-
 RUN rm -rf /packages
 
 # Install WalletWasabi
-RUN apt-get install -y libx11-dev libice-dev libsm-dev libfontconfig1 
+RUN apt-get install -y libx11-dev libice-dev libsm-dev libfontconfig1
 COPY vendor/WalletWasabi /opt/WalletWasabi
 RUN cd /opt/WalletWasabi/ && dotnet build
 

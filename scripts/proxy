@@ -34,7 +34,7 @@ def get_service(path, referer, strip_key = True):
         if (path.startswith(search_key)):
             host = f"{LOCALHOST}:{SERVICES[key]}"
             # strip service key conditionally. see do_POST
-            if (strip_key): 
+            if (strip_key):
                 path = path[len(key):len(path)]
             service_key = key
         elif (referer.startswith(search_key)):
