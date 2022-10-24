@@ -26,9 +26,6 @@ RUN apt-get install -y libx11-dev libice-dev libsm-dev libfontconfig1
 COPY vendor/WalletWasabi /opt/WalletWasabi
 RUN cd /opt/WalletWasabi/ && dotnet build
 
-# Install faucet
-COPY faucet /opt/faucet
-
 # Copy configuration
 COPY configuration/bitcoin-knots/ /opt/bitcoin-knots/config/
 COPY configuration/blockbook/ /opt/coins/blockbook/bitcoin_regtest/config
