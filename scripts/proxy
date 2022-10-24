@@ -12,7 +12,6 @@ import json
 
 LOCALHOST = "127.0.0.1"
 SERVICES = {
-    "/blockbook": 19121,
     "/WabiSabi": 37127,
     "/Cryptography": 37128
 }
