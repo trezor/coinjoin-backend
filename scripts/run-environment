@@ -3,5 +3,4 @@ echo "Waiting"
 sleep 5
 create-wallet > /dev/null
 wasabi-backend > /dev/null & echo "Running wasabi backend"
-wasabi-middleware > /dev/null & echo "Running wasabi middleware"
 proxy > /dev/null & echo "Running WabiSabi proxy"

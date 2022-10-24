@@ -13,7 +13,6 @@ import json
 LOCALHOST = "127.0.0.1"
 SERVICES = {
     "/WabiSabi": 37127,
-    "/Cryptography": 37128
 }
 
 def replace_html_links(html, base):
