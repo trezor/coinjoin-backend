@@ -13,10 +13,8 @@ RUN rm packages-microsoft-prod.deb
 RUN apt-get update
 RUN apt-get install -y dotnet-sdk-6.0 dotnet-runtime-6.0
 
-# Install bitcoin core, blockbook and bitcoin knots
+# Install blockbook and bitcoin knots
 RUN mkdir /packages
-RUN wget https://data.trezor.io/dev/blockbook/builds/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb -O /packages/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb
-RUN apt install -fy /packages/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb
 RUN wget https://data.trezor.io/dev/blockbook/builds/blockbook-bitcoin-regtest_0.3.6_amd64.deb -O /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
 RUN apt install -fy /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
 RUN wget https://bitcoinknots.org/files/23.x/23.0.knots20220529/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz -O /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz
@@ -32,7 +30,6 @@ RUN cd /opt/WalletWasabi/ && dotnet build
 COPY faucet /opt/faucet
 
 # Copy configuration
-COPY configuration/bitcoin-core/ /opt/coins/nodes/bitcoin_regtest/
 COPY configuration/bitcoin-knots/ /opt/bitcoin-knots/config/
 COPY configuration/blockbook/ /opt/coins/blockbook/bitcoin_regtest/config
 COPY configuration/wallet-wasabi/ /root/.walletwasabi/

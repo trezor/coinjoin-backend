@@ -1,4 +1,3 @@
-bitcoin-core > /dev/null & echo "Running bitcoin core"
 bitcoin-knots > /dev/null & echo "Running bitcoin knots"
 echo "Waiting"
 sleep 5
