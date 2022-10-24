@@ -1,5 +1,5 @@
 ﻿{
-  "Network": "RegTest",
+  "Network": "TestNet",
   "CoinJoinCoordinatorIdentifier": "https://trezor.io",
   "BitcoinRpcConnectionString": "rpc:rpc",
   "RegTestBitcoinCoreRpcEndPoint": "127.0.0.1:18443",
