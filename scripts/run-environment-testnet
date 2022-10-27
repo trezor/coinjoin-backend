@@ -1,0 +1,4 @@
+bitcoin-knots > /dev/null & echo "Running bitcoin knots"
+echo "Waiting"
+sleep 5
+wasabi-backend > /dev/null & echo "Running wasabi backend"

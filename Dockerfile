@@ -35,4 +35,4 @@ COPY scripts/ /opt/bin/
 ENV PATH="/opt/bin/:${PATH}"
 
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["run-environment && sleep infinity"]
+CMD ["run-environment-testnet && sleep infinity"]
