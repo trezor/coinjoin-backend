@@ -2,6 +2,6 @@
   "Network": "TestNet",
   "CoinJoinCoordinatorIdentifier": "https://trezor.io",
   "BitcoinRpcConnectionString": "rpc:rpc",
-  "RegTestBitcoinCoreRpcEndPoint": "127.0.0.1:18443",
-  "RegTestBitcoinP2pEndPoint": "127.0.0.1:18444"
+  "TestNetBitcoinCoreRpcEndPoint": "127.0.0.1:18443",
+  "TestNetBitcoinP2pEndPoint": "127.0.0.1:18444"
 }

@@ -1,4 +1,5 @@
 bitcoin-knots > /dev/null & echo "Running bitcoin knots"
 echo "Waiting"
-sleep 5
+# increase wait time for testnet to be ready before launching wasabi backend
+sleep 150
 wasabi-backend > /dev/null & echo "Running wasabi backend"

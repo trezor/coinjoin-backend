@@ -26,7 +26,7 @@ RUN cd /opt/WalletWasabi/ && dotnet build
 
 # Copy configuration
 COPY configuration/bitcoin-knots/ /opt/bitcoin-knots/config/
-COPY configuration/wallet-wasabi/ /root/.walletwasabi/
+COPY configuration/wallet-wasabi/backend/ /root/.walletwasabi/backend/
 
 RUN mkdir /opt/bitcoin-knots/data
 
