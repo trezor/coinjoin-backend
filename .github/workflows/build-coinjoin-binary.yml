@@ -3,10 +3,10 @@ name: "[Build] CoinjoinClientLibrary binary"
 on:
   pull_request:
     branches:
-      - master
+      - onvej-sl/master-rebased-test
   push:
     branches:
-      - master
+      - onvej-sl/master-rebased-test
 
 jobs:
   build_middleware:
