@@ -1,9 +1,12 @@
 name: "[Build] coinjoin-backend image & push to registry"
 
 on:
+  pull_request:
+    branches:
+      - onvej-sl/master-rebased-test
   push:
     branches:
-      - master
+      - onvej-sl/master-rebased-test
 
 jobs:
   build_images:
