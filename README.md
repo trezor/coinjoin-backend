@@ -3,7 +3,7 @@ Docker image running multiple services: bitcoind, blockbook, wasabi-wallet and w
 
 ## Building
 The command `make`
-  * clones the WassabiWallet,
+  * clones the WasabiWallet,
   * builds a docker image called `coinjoin-backend-image`,
   * creates a docker container called `coinjoin-backend-container`.
 
@@ -23,7 +23,7 @@ The container runs a RegTest with the following services on the address 127.0.0.
 | Faucet                  | HTTP     | 8080  |      |          |
 | Wabisabi proxy          | HTTP     | 8081  |      |          |
 | WalletWasabi backend    | REST API | 37127 |      |          |
-| WalletWasabi middleware | REST API | 37128 |      |          |
+| WalletWasabi client     | REST API | 37128 |      |          |
 
 The command `make create-container` rebuilds the container which resets the network.
 
@@ -36,6 +36,13 @@ The command `make create-container` rebuilds the container which resets the netw
   * Restart the GUI.
   * Open http://127.0.0.1:8080 in your browser.
   * Send yourself money.
+
+## Proxy endpoints:
+- Faucet http://localhost:8081/
+- Blockbook http://localhost:8081/blockbook
+- WabiSabi backend http://localhost:8081/backend
+- WabiSabi coordinator http://localhost:8081/backend/wabisabi
+- WabiSabi client http://localhost:8081/client
 
 
 ## Running WasabiWallet from docker
