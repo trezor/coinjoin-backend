@@ -3,12 +3,9 @@
 from http.server import SimpleHTTPRequestHandler
 from urllib.parse import urlparse
 from socketserver import TCPServer
-from hashlib import sha256
-from ecdsa import SECP256k1, SigningKey
 import traceback
 import sys
 import requests
-import json
 
 LOCALHOST = "127.0.0.1"
 SERVICES = {
@@ -47,8 +44,6 @@ def get_service(path, referer):
         "url": f"http://{host}{path}"
     }
 
-
-
 # origin is set to the actual machine that made the call not localhost
 def request_headers(host) -> dict:
     return {
@@ -60,42 +55,6 @@ def merge_headers(original: dict, override: dict) -> dict:
     headers = original.copy()
     headers.update(override)
     return headers
-
-
-# Simplified payment request from:
-# https://github.com/trezor/trezor-firmware/blob/master/tests/device_tests/bitcoin/test_signtx_payreq.py
-
-PAYMENT_SIGNER = SigningKey.from_string(
-    b"?S\ti\x8b\xc5o{,\xab\x03\x194\xea\xa8[_:\xeb\xdf\xce\xef\xe50\xf17D\x98`\xb9dj",
-    curve=SECP256k1,
-)
-
-def make_payment_request(
-    recipient_name, outputs, slip44
-):
-    h_pr = sha256(b"SL\x00\x24")
-    h_pr.update(b"\0")
-
-    recipient = recipient_name.encode()
-    h_pr.update(len(recipient).to_bytes(1, "little"))
-    h_pr.update(recipient)
-
-    memos = []
-    h_pr.update(len(memos).to_bytes(1, "little"))
-    h_pr.update(slip44.to_bytes(4, "little"))
-
-    h_outputs = sha256()
-    for txo in outputs:
-        h_outputs.update(txo['amount'].to_bytes(8, "little"))
-        h_outputs.update(len(txo['address']).to_bytes(1, "little"))
-        h_outputs.update(txo['address'].encode())
-
-    h_pr.update(h_outputs.digest())
-
-    return {
-        "recipient_name": recipient_name,
-        "signature": PAYMENT_SIGNER.sign_digest_deterministic(h_pr.digest()).hex(),
-    }
 
 # Proxy server redirects between running services
 # Purposes:
@@ -135,18 +94,6 @@ class Server(TCPServer):
             self.send_header("Content-Type", headers.get("Content-Type", ""))
             self.send_header("Content-Encoding", headers.get("Content-Encoding", ""))
 
-        # TODO: this should be moved to coordinator at some point
-        def do_PaymentRequest(self, data):
-            params = json.loads(data.decode("utf-8").replace("'",'"'))
-            print("Payment request:")
-            print(params)
-            signature = make_payment_request(params["recipient_name"], params["outputs"], params.get("slip44", 1))
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
-            self.end_headers()
-            self.wfile.write(bytes(json.dumps(signature, ensure_ascii=False), 'utf-8'))
-
         def do_GET(self):
             try:
                 service = self.get_service()
@@ -174,14 +121,8 @@ class Server(TCPServer):
 
         def do_POST(self, body: bool = True) -> None:
             try:
-                site = self.path
                 data_len = int(self.headers.get("Content-Length", 0))
                 data = self.rfile.read(data_len)
-
-                if self.path.startswith("/WabiSabi/payment-request"):
-                    self.do_PaymentRequest(data)
-                    return
-
                 service = self.get_service()
                 print("do_POST:")
                 print(service)
