@@ -3,10 +3,11 @@ cd /opt/faucet
 python3 <<HEREDOC
 from bitcoin import Bitcoin
 bitcoin = Bitcoin("http://127.0.0.1:18443", "rpc", "rpc")
-bitcoin.send("bcrt1qkvwu9g3k2pdxewfqr7syz89r3gj557l374sg5v", 5) # Trezor all-all
-bitcoin.send("bcrt1pswrqtykue8r89t9u4rprjs0gt4qzkdfuursfnvqaa3f2yql07zmq2fdmpx", 5) # Trezor taproot all-all
-bitcoin.send("bcrt1q7gefpk0ehc738gc4kmltu20uq7rdxnyk7aupqg", 3) # Wasabi Account 1
-bitcoin.send("bcrt1qa4cqygqqzwkwlqzuktcqgzj7he9tfn5f6v335p", 2) # Wasabi Account 2
+bitcoin.send("bcrt1qkvwu9g3k2pdxewfqr7syz89r3gj557l374sg5v", 0.1) # Trezor all-all
+bitcoin.send("bcrt1pswrqtykue8r89t9u4rprjs0gt4qzkdfuursfnvqaa3f2yql07zmq2fdmpx", 0.1) # Trezor taproot all-all
+bitcoin.send("bcrt1pl3y9gf7xk2ryvmav5ar66ra0d2hk7lhh9mmusx3qvn0n09kmaghq6gq9fy", 0.2) # Trezor slip-25 all-all
+bitcoin.send("bcrt1q7gefpk0ehc738gc4kmltu20uq7rdxnyk7aupqg", 0.21) # Wasabi Account 1
+bitcoin.send("bcrt1qa4cqygqqzwkwlqzuktcqgzj7he9tfn5f6v335p", 0.22) # Wasabi Account 2
 HEREDOC
 
 echo "Running wasabi wallet"
