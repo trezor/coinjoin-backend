@@ -90,9 +90,12 @@ class Server(TCPServer):
             return get_service(self.path, referer)
 
         def send_response_headers(self, headers):
-            self.send_header("Access-Control-Allow-Origin", self.headers.get("Access-Control-Allow-Origin", "*"))
             self.send_header("Content-Type", headers.get("Content-Type", ""))
-            self.send_header("Content-Encoding", headers.get("Content-Encoding", ""))
+            # add access and encoding headers only if Origin is present in request headers (browser request)
+            origin = self.headers.get("Origin", "")
+            if (origin != ''):
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.send_header("Content-Encoding", headers.get("Content-Encoding", ""))
 
         def do_GET(self):
             try:
