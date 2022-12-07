@@ -5,6 +5,6 @@ sleep 5
 create-wallet > /dev/null
 blockbook > /dev/null & echo "Running blockbook"
 wasabi-backend > /dev/null & echo "Running wasabi backend"
-wasabi-middleware > /dev/null & echo "Running wasabi middleware"
+wasabi-middleware > /root/wabisabi-client-log.txt & echo "Running wasabi client"
 faucet > /dev/null & echo "Running faucet"
 proxy > /dev/null & echo "Running WabiSabi proxy"
