@@ -7,11 +7,11 @@ RUN pip3 install ecdsa==0.16.1
 
 # Install dotnet
 RUN apt-get install -y wget
-RUN wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN apt-get install -fy /packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
 RUN apt-get update
-RUN apt-get install -y dotnet-sdk-6.0 dotnet-runtime-6.0
+RUN apt-get install -y dotnet-sdk-7.0 dotnet-runtime-7.0
 
 # Install bitcoin knots
 RUN mkdir /packages

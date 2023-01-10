@@ -19,7 +19,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '7.0.x'
 
       - name: Build linux-x64
         run: |
@@ -47,9 +47,9 @@ jobs:
         with:
           name: CoinjoinClientLibrary-binary
           path: |
-            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net6.0/linux-x64/publish/WalletWasabi.WabiSabiClientLibrary
-            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net6.0/linux-x64/publish/WalletWasabi.WabiSabiClientLibrary
-            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net6.0/linux-arm64/publish/WalletWasabi.WabiSabiClientLibrary
-            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net6.0/osx-x64/publish/WalletWasabi.WabiSabiClientLibrary
-            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net6.0/osx-arm64/publish/WalletWasabi.WabiSabiClientLibrary
-            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net6.0/win-x64/publish/WalletWasabi.WabiSabiClientLibrary.exe
+            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net7.0/linux-x64/publish/WalletWasabi.WabiSabiClientLibrary
+            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net7.0/linux-x64/publish/WalletWasabi.WabiSabiClientLibrary
+            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net7.0/linux-arm64/publish/WalletWasabi.WabiSabiClientLibrary
+            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net7.0/osx-x64/publish/WalletWasabi.WabiSabiClientLibrary
+            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net7.0/osx-arm64/publish/WalletWasabi.WabiSabiClientLibrary
+            ./vendor/WalletWasabi/WalletWasabi.WabiSabiClientLibrary/bin/Release/net7.0/win-x64/publish/WalletWasabi.WabiSabiClientLibrary.exe
