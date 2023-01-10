@@ -3,7 +3,6 @@ name: "[Build] coinjoin-backend image & push to registry"
 on:
   push:
     branches:
-      - master
 
 jobs:
   build_images:

@@ -3,10 +3,8 @@ name: "[Build] CoinjoinClientLibrary binary"
 on:
   pull_request:
     branches:
-      - master
   push:
     branches:
-      - master
 
 jobs:
   build_middleware:
