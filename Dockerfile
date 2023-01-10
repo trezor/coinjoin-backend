@@ -19,7 +19,7 @@ RUN wget https://data.trezor.io/dev/blockbook/builds/backend-bitcoin-regtest_23.
 RUN apt install -fy /packages/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb
 RUN wget https://data.trezor.io/dev/blockbook/builds/blockbook-bitcoin-regtest_0.3.6_amd64.deb -O /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
 RUN apt install -fy /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
-RUN wget https://bitcoinknots.org/files/23.x/23.0.knots20220529/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz -O /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz
+RUN wget https://bitcoinknots.org/~luke-jr/.RISKY/programs/bitcoin/files/bitcoin-knots/23.x/23.0.knots20220529/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz -O /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz
 RUN tar -xzf /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
 RUN rm -rf /packages
 
