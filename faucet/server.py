@@ -34,6 +34,15 @@ class Server(TCPServer):
         self.serve_forever()
 
     class MyHttpRequestHandler(SimpleHTTPRequestHandler):
+        def return_text_file(self, data):
+            self.send_response(200)
+            self.send_header("Cache-Control", "no-cache")
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(b"<pre>")
+            self.wfile.write(data)
+            self.wfile.write(b"</pre>")
+
         def return_html_page(self, data):
             self.send_response(200)
             self.send_header("Cache-Control", "no-cache")
@@ -101,10 +110,10 @@ class Server(TCPServer):
                     self.return_index_page()
                 elif site == "/wasabi_wallet_backend":
                     log = open("/root/.walletwasabi/backend/Logs.txt", "rb").read()
-                    self.return_html_page(log)
+                    self.return_text_file(log)
                 elif site == "/wasabi_wallet_client":
                     log = open("/root/wabisabi-client-log.txt", "rb").read()
-                    self.return_html_page(log)
+                    self.return_text_file(log)
                 else:
                     self.return_error_page(404, "Not found")
             except Exception as exception:
