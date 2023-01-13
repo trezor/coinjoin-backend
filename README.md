@@ -12,18 +12,18 @@ The docker container is started with `make start` and stopped with `make stop`. 
 
 The container runs a RegTest with the following services on the address 127.0.0.1:
 
-| Server                  | Protocol | Port  | User | Password |
-|-------------------------|----------|-------|------|----------|
-| Bitcoin knots           | P2P      | 18444 |      |          |
-| Bitcoin knots           | RPC      | 18443 | rpc  | rpc      |
-| Bitcoin core            | P2P      | 28444 |      |          |
-| Bitcoin core            | RPC      | 28443 | rpc  | rpc      |
-| Blockbook               | HTTP     | 19121 |      |          |
-| Blockbook               | RPC      | 28443 |      |          |
-| Faucet                  | HTTP     | 8080  |      |          |
-| Wabisabi proxy          | HTTP     | 8081  |      |          |
-| WalletWasabi backend    | REST API | 37127 |      |          |
-| WalletWasabi client     | REST API | 37128 |      |          |
+| Server                    | Protocol | Port  | User | Password |
+|---------------------------|----------|-------|------|----------|
+| Bitcoin knots             | P2P      | 18444 |      |          |
+| Bitcoin knots             | RPC      | 18443 | rpc  | rpc      |
+| Bitcoin core              | P2P      | 28444 |      |          |
+| Bitcoin core              | RPC      | 28443 | rpc  | rpc      |
+| Blockbook                 | HTTP     | 19121 |      |          |
+| Blockbook                 | RPC      | 28443 |      |          |
+| Faucet                    | HTTP     | 8080  |      |          |
+| Wabisabi proxy            | HTTP     | 8081  |      |          |
+| WalletWasabi backend      | REST API | 37127 |      |          |
+| Coinjoin affiliate server | REST API | 1080  |      |          |
 
 The command `make create-container` rebuilds the container which resets the network.
 
