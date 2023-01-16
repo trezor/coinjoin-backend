@@ -10,5 +10,8 @@
   "AllowP2trInputs": true,
   "AllowP2trOutputs": true,
   "MaxSuggestedAmountBase": "10",
-  "CoordinatorExtPubKey" : "tpubDDSosa8Y4mq9kvpVzG4TLkKMSgz8BKQbsWWMMiiR9Yu41aaJNy1SFUGe166jD9KNVDMRyfm2kz9qiCssvvZTTrL52P3UFBKKB879jLM7pt1"
+  "CoordinatorExtPubKey" : "tpubDDSosa8Y4mq9kvpVzG4TLkKMSgz8BKQbsWWMMiiR9Yu41aaJNy1SFUGe166jD9KNVDMRyfm2kz9qiCssvvZTTrL52P3UFBKKB879jLM7pt1",
+  "AffiliateServers": {
+    "trezor": "https://dev-coinjoin-affiliate.trezor.io/"
+  }
 }
