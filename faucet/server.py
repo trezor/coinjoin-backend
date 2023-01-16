@@ -113,9 +113,6 @@ class Server(TCPServer):
                     self.return_text_file(log)
                 elif site == "/wasabi_wallet_client":
                     log = open("/root/wabisabi-client-log.txt", "rb").read()
-                    self.return_html_page(log)
-                elif site == "/coinjoin_affiliate_server":
-                    log = open("/opt/coinjoin-affiliate-server/logs", "rb").read()
                     self.return_text_file(log)
                 else:
                     self.return_error_page(404, "Not found")

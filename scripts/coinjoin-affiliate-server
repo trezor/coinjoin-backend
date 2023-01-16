@@ -1,1 +1,0 @@
-KEY_FILE=/opt/coinjoin-affiliate-server/examples/key python3 /opt/coinjoin-affiliate-server/coinjoin-affiliate-server --bind-address 127.0.0.1 --bind-port 1080 --allow-mainnet --debug 2> /opt/coinjoin-affiliate-server/logs

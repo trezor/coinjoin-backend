@@ -1,4 +1,3 @@
-coinjoin-affiliate-server > /dev/null & echo "Running coinjoin affiliate server"
 bitcoin-core > /dev/null & echo "Running bitcoin core"
 bitcoin-knots > /dev/null & echo "Running bitcoin knots"
 echo "Waiting"

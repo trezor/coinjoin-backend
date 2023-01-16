@@ -9,8 +9,5 @@
   "ReleaseUtxoFromPrisonAfter" : "0d 0h 0m 0s",
   "AllowP2trInputs": true,
   "AllowP2trOutputs": true,
-  "MaxSuggestedAmountBase": "10",
-  "AffiliateServers": {
-    "trezor": "http://127.0.0.1:1080/"
-  }
+  "MaxSuggestedAmountBase": "10"
 }

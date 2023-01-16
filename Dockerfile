@@ -31,9 +31,6 @@ RUN cd /opt/WalletWasabi/ && dotnet build
 # Install faucet
 COPY faucet /opt/faucet
 
-# Install coinjoin-affiliate-server
-COPY vendor/coinjoin-affiliate-server /opt/coinjoin-affiliate-server
-
 # Copy configuration
 COPY configuration/bitcoin-core/ /opt/coins/nodes/bitcoin_regtest/
 COPY configuration/bitcoin-knots/ /opt/bitcoin-knots/config/
