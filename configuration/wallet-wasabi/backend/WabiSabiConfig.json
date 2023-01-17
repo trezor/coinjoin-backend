@@ -11,6 +11,6 @@
   "AllowP2trOutputs": true,
   "MaxSuggestedAmountBase": "10",
   "AffiliateServers": {
-    "trezor": "https://dev-coinjoin-affiliate.trezor.io/get_coinjoin_request_suite"
+    "trezor": "https://dev-coinjoin-affiliate.trezor.io/"
   }
 }
