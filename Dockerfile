@@ -1,26 +1,34 @@
 FROM debian:bullseye-slim
-RUN apt-get update
 
-# Install python
-RUN apt-get install -y python3 python3-pip python3-requests
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+  # Python
+    python3 python3-pip python3-requests \
+  # .NET dependencies
+    libc6 libgcc1 libgssapi-krb5-2 libssl1.1 libstdc++6 zlib1g libicu67\
+  # Other tools
+    wget curl
+
 RUN pip3 install ecdsa==0.16.1
 
 # Install dotnet
-RUN apt-get install -y wget
-RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-RUN apt-get install -fy /packages-microsoft-prod.deb
-RUN rm packages-microsoft-prod.deb
-RUN apt-get update
-RUN apt-get install -y dotnet-sdk-7.0 dotnet-runtime-7.0
+RUN curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 7.0 --install-dir /usr/share/dotnet \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+
 
 # Install bitcoin core, blockbook and bitcoin knots
+ARG TARGETPLATFORM
 RUN mkdir /packages
-RUN wget https://data.trezor.io/dev/blockbook/builds/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb -O /packages/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb
-RUN apt install -fy /packages/backend-bitcoin-regtest_23.0-satoshilabs-1_amd64.deb
-RUN wget https://data.trezor.io/dev/blockbook/builds/blockbook-bitcoin-regtest_0.3.6_amd64.deb -O /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
-RUN apt install -fy /packages/blockbook-bitcoin-regtest_0.3.6_amd64.deb
-RUN wget https://bitcoinknots.org/~luke-jr/.RISKY/programs/bitcoin/files/bitcoin-knots/23.x/23.0.knots20220529/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz -O /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz
-RUN tar -xzf /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE=amd64; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCHITECTURE=arm64; else ARCHITECTURE=amd64; fi \
+  && wget https://data.trezor.io/dev/blockbook/builds/backend-bitcoin-regtest_24.0.1-satoshilabs-1_${ARCHITECTURE}.deb -O /packages/backend-bitcoin-regtest_24.0.1-satoshilabs-1_${ARCHITECTURE}.deb \
+  && wget https://data.trezor.io/dev/blockbook/builds/blockbook-bitcoin-regtest_0.4.0_${ARCHITECTURE}.deb -O /packages/blockbook-bitcoin-regtest_0.4.0_${ARCHITECTURE}.deb \
+  && apt install -fy /packages/backend-bitcoin-regtest_24.0.1-satoshilabs-1_${ARCHITECTURE}.deb \
+  && apt install -fy /packages/blockbook-bitcoin-regtest_0.4.0_${ARCHITECTURE}.deb
+
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE_KNOTS=x86_64; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCHITECTURE_KNOTS=aarch64; else ARCHITECTURE_KNOTS=x86_64; fi \
+  && wget https://bitcoinknots.org/~luke-jr/.RISKY/programs/bitcoin/files/bitcoin-knots/23.x/23.0.knots20220529/bitcoin-23.0.knots20220529-${ARCHITECTURE_KNOTS}-linux-gnu.tar.gz -O /packages/bitcoin-23.0.knots20220529-${ARCHITECTURE_KNOTS}-linux-gnu.tar.gz \
+  && tar -xzf /packages/bitcoin-23.0.knots20220529-${ARCHITECTURE_KNOTS}-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
+
 RUN rm -rf /packages
 
 # Install WalletWasabi
