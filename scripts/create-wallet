@@ -1,1 +1,8 @@
-/opt/bitcoin-knots/bin/bitcoin-cli -regtest -rpcpassword=rpc -rpcuser=rpc loadwallet default_wallet || /opt/bitcoin-knots/bin/bitcoin-cli -regtest -rpcpassword=rpc -rpcuser=rpc createwallet default_wallet
+DEFAULT_WALLET_DIR="/opt/bitcoin-knots/data/regtest/wallets/default_wallet"
+if [ -d "$DEFAULT_WALLET_DIR" ]; then
+    echo "Loading default wallet ${DEFAULT_WALLET_DIR}"
+    /opt/bitcoin-knots/bin/bitcoin-cli -regtest -rpcpassword=rpc -rpcuser=rpc loadwallet default_wallet
+else
+    /opt/bitcoin-knots/bin/bitcoin-cli -regtest -rpcpassword=rpc -rpcuser=rpc createwallet default_wallet
+    /opt/bitcoin-knots/bin/bitcoin-cli -regtest -rpcpassword=rpc -rpcuser=rpc -generate 150
+fi
