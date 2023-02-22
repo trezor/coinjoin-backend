@@ -15,8 +15,11 @@ class Bitcoin:
         if self.client.getmempoolinfo()["size"]:
             self.generate_blocks()
 
-    def send(self, address, amount):
-        self.send_multiple({address: amount})
+    def send(self, address, amount, mempool = False):
+        if mempool is True:
+            self.client.sendtoaddress(address=address, amount=amount, avoid_reuse=False)
+        else:
+            self.send_multiple({address: amount})
 
     def send_multiple(self, invoice):
         total = sum(invoice.values())

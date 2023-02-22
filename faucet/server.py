@@ -75,7 +75,10 @@ class Server(TCPServer):
                     parameters = parse_qs(content)
                     amount = float(parameters[b"amount"][0].decode())
                     address = parameters[b"address"][0].decode()
-                    self.server.bitcoin.send(address, amount)
+                    mempool = False
+                    if b"mempool" in parameters:
+                        mempool = True
+                    self.server.bitcoin.send(address, amount, mempool)
                     self.return_redirect("/")
                 elif site == "/start_generating_blocks_automatically":
                     parameters = parse_qs(content)
