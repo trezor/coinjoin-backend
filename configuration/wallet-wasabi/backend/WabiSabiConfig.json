@@ -1,6 +1,6 @@
 ﻿{
   "StandardInputRegistrationTimeout": "0d 0h 3m 00s",
-  "ConnectionConfirmationTimeout": "0d 0h 3m 00s",
+  "ConnectionConfirmationTimeout": "0d 0h 1m 30s",
   "OutputRegistrationTimeout": "0d 0h 3m 00s",
   "TransactionSigningTimeout": "0d 0h 3m 00s",
   "RoundExpiryTimeout": "0d 0h 2m 00s",
