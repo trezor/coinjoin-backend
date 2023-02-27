@@ -34,7 +34,7 @@ RUN rm -rf /packages
 # Install WalletWasabi
 RUN apt-get install -y libx11-dev libice-dev libsm-dev libfontconfig1
 COPY vendor/WalletWasabi /opt/WalletWasabi
-RUN cd /opt/WalletWasabi/ && dotnet build
+RUN cd /opt/WalletWasabi/ && DOTNET_EnableWriteXorExecute=0 dotnet build
 
 # Install faucet
 COPY faucet /opt/faucet
