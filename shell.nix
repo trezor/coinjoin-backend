@@ -1,8 +1,8 @@
-# the last successful build of nixpkgs-unstable as of 2022-05-31
+# the last successful build of nixpkgs-unstable as of 2023-02-28
 with import
   (builtins.fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/b62ada430501de88dfbb08cea4eb98ead3a5e3e7.tar.gz";
-    sha256 = "1ppaixbncqyvy2ixskwvzggjsw20j77iy3aqyk4749dvkx0ml27f";
+    url = "https://github.com/NixOS/nixpkgs/archive/7785526659fe5885abbd88a85a23a11bd0617e3c.tar.gz";
+    sha256 = "0sjsy3jihhdmck6hn9lizwvk25kzf5ags1p21xqqn3kj7fv5ax9x";
   })
 { };
 
