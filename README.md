@@ -40,6 +40,20 @@ The command `make create-container` rebuilds the container which resets the netw
 Use command `make run-wallet` to start WasabiWallet GUI with already preloaded accounts (no password).
 For convenience also `Trezor` accounts with `all all` seed (no passphrase) are preloaded.
 
+## Using custom WabiSabiClientLibrary (middleware)
+
+Download artifacts from [github action](https://github.com/trezor/WalletWasabi/actions/workflows/build-WabiSabiClientLibrary-binary.yaml) unzip files and make them executable.
+
+```
+unzip ~/Downloads/WabiSabiClientLibrary-bin.zip -d ~/Downloads/WabiSabiClientLibrary
+chmod +x ~/Downloads/WabiSabiClientLibrary/*/publish/WalletWasabi.WabiSabiClientLibrary
+```
+
+Start `coinjoin-backend` image with mounted middleware:
+```
+docker run -d --net host -v ~/Downloads/WabiSabiClientLibrary/linux-x64/publish:/mnt/middleware coinjoin-backend-image
+```
+
 ## Proxy
 
 For development in browser environment proxy accepts preflight `OPTIONS` requests and overrides `Access-Control-Allow-Origin` header
