@@ -1,3 +1,3 @@
 [submodule "vendor/WalletWasabi"]
 	path = vendor/WalletWasabi
-	url = git@github.com:trezor/WalletWasabi.git
+	url = git@github.com:zkSNACKs/WalletWasabi.git
