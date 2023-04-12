@@ -6,7 +6,7 @@
     "coin_name": "Regtest",
     "coin_shortcut": "REGTEST",
     "coin_label": "Regtest",
-    "rpc_url": "http://127.0.0.1:28443",
+    "rpc_url": "http://127.0.0.1:18443",
     "rpc_user": "rpc",
     "rpc_pass": "rpc",
     "rpc_timeout": 25,
