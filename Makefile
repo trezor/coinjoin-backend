@@ -1,7 +1,7 @@
 .PHONY: build vendor build-image create-container start stop run-wallet
 
 
-build: build-image create-container
+build: vendor build-image create-container
 
 vendor:
 	git submodule update --init --recursive --force
