@@ -35,9 +35,12 @@ The command `make create-container` rebuilds the container which resets the netw
   * Open http://127.0.0.1:8080 in your browser.
   * Send yourself money.
 
-## Proxy endpoints:
-- Faucet http://localhost:8081/
-- Blockbook http://localhost:8081/blockbook
+
+## Proxy
+
+For development in browser environment proxy accepts preflight `OPTIONS` requests and overrides `Access-Control-Allow-Origin` header
+
+### Proxy endpoints:
 - WabiSabi backend http://localhost:8081/backend
 - WabiSabi coordinator http://localhost:8081/backend/wabisabi
 - WabiSabi client http://localhost:8081/client
