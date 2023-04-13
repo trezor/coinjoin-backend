@@ -37,6 +37,10 @@ The command `make create-container` rebuilds the container which resets the netw
   * Open http://127.0.0.1:8080 in your browser.
   * Send yourself money.
 
+## Running WasabiWallet GUI from docker
+
+Use command `make run-wallet` to start WasabiWallet GUI with already preloaded accounts (no password).
+For convenience also `Trezor` accounts with `all all` seed (no passphrase) are preloaded.
 
 ## Proxy
 
@@ -46,9 +50,3 @@ For development in browser environment proxy accepts preflight `OPTIONS` request
 - WabiSabi backend http://localhost:8081/backend
 - WabiSabi coordinator http://localhost:8081/backend/wabisabi
 - WabiSabi client http://localhost:8081/client
-
-
-## Running WasabiWallet from docker
-`sudo xhost +`
-
-`docker run -it --net host -v "/tmp/.X11-unix/":"/tmp/.X11-unix/" -e DISPLAY="${DISPLAY}" coinjoin-backend-image "run-environment && wasabi-wallet"`
