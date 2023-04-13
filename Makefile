@@ -21,7 +21,8 @@ stop:
 	docker stop coinjoin-backend-container
 
 run-wallet:
-	docker run -it \
+	xhost + \
+	&& docker run -it \
 		--net host \
 		-v "/tmp/.X11-unix/":"/tmp/.X11-unix/" \
 		-e DISPLAY="${DISPLAY}" \
