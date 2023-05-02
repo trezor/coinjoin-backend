@@ -43,7 +43,6 @@ RUN cd /opt/WalletWasabi/ && DOTNET_EnableWriteXorExecute=0 dotnet build
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE_MIDDLEWARE=x64; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCHITECTURE_MIDDLEWARE=arm64; else ARCHITECTURE_MIDDLEWARE=x64; fi \
   && mkdir /opt/middleware \
   && wget https://github.com/trezor/WalletWasabi/releases/latest/download/WabiSabiClientLibrary-linux-${ARCHITECTURE_MIDDLEWARE}-debug -O /opt/middleware/WalletWasabi.WabiSabiClientLibrary \
-  && wget https://github.com/trezor/WalletWasabi/releases/latest/download/WalletWasabi.WabiSabiClientLibrary.xml -O /opt/middleware/WalletWasabi.WabiSabiClientLibrary.xml \
   && chmod +x /opt/middleware/WalletWasabi.WabiSabiClientLibrary
 
 # Install faucet
