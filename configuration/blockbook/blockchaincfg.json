@@ -21,5 +21,7 @@
 
     "mempool_workers": 8,
     "mempool_sub_workers": 2,
+    "mempool_filter_scripts": "taproot",
+    "golomb_filter_p": 20,
     "block_addresses_to_keep": 300
 }
