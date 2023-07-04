@@ -142,6 +142,9 @@ class Server(TCPServer):
             self.send_header('Access-Control-Allow-Origin', self.headers.get('Access-Control-Allow-Origin', '*'))
             self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
             self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
+            self.send_header("Access-Control-Allow-Headers", "Allowed-Headers")
+            self.send_header("Access-Control-Allow-Headers", "Accept-Encoding")
+            self.send_header("Access-Control-Allow-Headers", "Proxy-Authorization")
             self.send_header("Access-Control-Allow-Headers", "Content-Type")
             self.end_headers()
 
