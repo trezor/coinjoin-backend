@@ -1,14 +1,16 @@
-.PHONY: build vendor build-image create-container start stop run-wallet
+.PHONY: build vendor create-git-rev build-image create-container start stop run-wallet
 
 
-build: vendor build-image create-container
+build: vendor create-git-rev build-image create-container
 
 vendor:
 	git submodule update --init --recursive --force
 
-build-image:
+create-git-rev:
 	# create file for git monkeypatch (see ./scripts/git)
 	(cd ./vendor/WalletWasabi && git rev-parse HEAD) > scripts/WalletWasabi-HEAD
+
+build-image:
 	docker build -f ./Dockerfile -t coinjoin-backend-image .
 
 create-container:
