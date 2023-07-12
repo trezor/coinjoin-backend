@@ -35,6 +35,10 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE_KNOTS=x86_64; el
 
 RUN rm -rf /packages
 
+# Install scripts
+COPY scripts/ /opt/bin/
+ENV PATH="/opt/bin/:${PATH}"
+
 # Install WalletWasabi
 COPY vendor/WalletWasabi /opt/WalletWasabi
 RUN cd /opt/WalletWasabi/ && DOTNET_EnableWriteXorExecute=0 dotnet build
@@ -54,9 +58,6 @@ COPY configuration/wallet-wasabi/ /root/.walletwasabi/
 
 RUN mkdir /opt/bitcoin-knots/data
 
-# Install scripts
-COPY scripts/ /opt/bin/
-ENV PATH="/opt/bin/:${PATH}"
 
 ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["run-environment && sleep infinity"]
