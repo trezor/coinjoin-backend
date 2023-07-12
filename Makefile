@@ -6,8 +6,10 @@ build: build-image create-container
 vendor:
 	git submodule update --init --recursive --force
 
-build-image: Dockerfile
-	docker build -t coinjoin-backend-image .
+build-image:
+	# create file for git monkeypatch (see ./scripts/git)
+	(cd ./vendor/WalletWasabi && git rev-parse HEAD) > scripts/WalletWasabi-HEAD
+	docker build -f ./Dockerfile -t coinjoin-backend-image .
 
 create-container:
 	if [[ $$(docker ps -q -f name=coinjoin-backend-container) ]]; then docker kill coinjoin-backend-container; else true; fi

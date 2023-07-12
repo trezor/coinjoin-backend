@@ -19,6 +19,10 @@ RUN wget https://bitcoinknots.org/~luke-jr/.RISKY/programs/bitcoin/files/bitcoin
 RUN tar -xzf /packages/bitcoin-23.0.knots20220529-x86_64-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
 RUN rm -rf /packages
 
+# Install scripts
+COPY scripts/ /opt/bin/
+ENV PATH="/opt/bin/:${PATH}"
+
 # Install WalletWasabi
 RUN apt-get install -y libx11-dev libice-dev libsm-dev libfontconfig1
 COPY vendor/WalletWasabi /opt/WalletWasabi
@@ -30,9 +34,6 @@ COPY configuration/wallet-wasabi/backend/ /root/.walletwasabi/backend/
 
 RUN mkdir /opt/bitcoin-knots/data
 
-# Install scripts
-COPY scripts/ /opt/bin/
-ENV PATH="/opt/bin/:${PATH}"
 
 ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["run-environment-testnet && sleep infinity"]

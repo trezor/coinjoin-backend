@@ -1,0 +1,5 @@
+# monkey patch for git + WalletWasabi submodule
+# WalletWasabi build uses `git rev-parse HEAD` to include commitHash
+# unfortunatelly whole .git directory is listed the .dockerignore since it's too big to copy into docker context
+# instead of using real `git` binary just print out commit hash stored in the HEAD file explicitly copied by the Makefile
+echo "$(cat /opt/bin/WalletWasabi-HEAD)"
