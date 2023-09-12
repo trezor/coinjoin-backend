@@ -21,7 +21,11 @@
 
     "mempool_workers": 8,
     "mempool_sub_workers": 2,
+    "mempool_golomb_filter_p": 20,
     "mempool_filter_scripts": "taproot",
-    "golomb_filter_p": 20,
+    "mempool_filter_use_zeroed_key": false,
+    "block_golomb_filter_p": 20,
+    "block_filter_scripts": "taproot-noordinals",
+    "block_filter_use_zeroed_key": true,
     "block_addresses_to_keep": 300
 }
