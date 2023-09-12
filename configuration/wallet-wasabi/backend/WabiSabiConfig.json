@@ -13,5 +13,6 @@
   "MaxSuggestedAmountBase": "10",
   "AffiliateServers": {
     "trezor": "https://dev-coinjoin-affiliate.trezor.io/"
-  }
+  },
+  "DelayTransactionSigning": true
 }
