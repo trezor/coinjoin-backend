@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
   buildInputs = [
     stdenv.cc.cc.lib
     openssl
-    dotnet-sdk_6
+    dotnet-sdk_8
     docker
     fontconfig
     fontconfig.lib

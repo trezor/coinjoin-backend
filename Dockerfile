@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
 RUN pip3 install ecdsa==0.16.1
 
 # Install dotnet
-RUN curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 7.0 --install-dir /usr/share/dotnet \
+RUN curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0 --install-dir /usr/share/dotnet \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
 
