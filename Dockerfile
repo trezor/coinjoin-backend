@@ -30,8 +30,8 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE=amd64; elif [ "$
 
 # Install bitcoin knots
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE_KNOTS=x86_64; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCHITECTURE_KNOTS=aarch64; else ARCHITECTURE_KNOTS=x86_64; fi \
-  && wget https://bitcoinknots.org/~luke-jr/.RISKY/programs/bitcoin/files/bitcoin-knots/23.x/23.0.knots20220529/bitcoin-23.0.knots20220529-${ARCHITECTURE_KNOTS}-linux-gnu.tar.gz -O /packages/bitcoin-23.0.knots20220529-${ARCHITECTURE_KNOTS}-linux-gnu.tar.gz \
-  && tar -xzf /packages/bitcoin-23.0.knots20220529-${ARCHITECTURE_KNOTS}-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
+  && wget https://bitcoinknots.org/files/25.x/25.1.knots20231115/bitcoin-25.1.knots20231115-${ARCHITECTURE_KNOTS}-linux-gnu.tar.gz -O /packages/bitcoin-25.1.knots20231115-${ARCHITECTURE_KNOTS}-linux-gnu.tar.gz \
+  && tar -xzf /packages/bitcoin-25.1.knots20231115-${ARCHITECTURE_KNOTS}-linux-gnu.tar.gz --one-top-level=/opt/bitcoin-knots/ --strip-components=1
 
 RUN rm -rf /packages
 
